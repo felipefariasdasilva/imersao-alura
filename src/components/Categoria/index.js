@@ -27,8 +27,8 @@ export default function CadastroCategoria() {
 
   useEffect(() => {
     const URL = window.location.hostname.includes('localhost')
-    ? 'http://localhost:8080/categorias'
-    : '';
+      ? 'http://localhost:8080/categorias'
+      : '';
 
     fetch(URL)
       .then(async (serverResponse) => {
