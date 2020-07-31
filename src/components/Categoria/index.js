@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../PageDefault';
 import FormField from '../FormField';
 import Button from '../Button';
+import useForm from '../../hooks/useForm';
 
 export default function CadastroCategoria() {
   const valoresIniciais = {
@@ -10,20 +11,9 @@ export default function CadastroCategoria() {
     descricao: '',
     cor: '#000',
   };
+
+  const { handleChange, values, clearForm } = useForm(valoresIniciais);
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
-
-  function setValue(chave, valor) {
-    setValues({
-      ...values,
-      [chave]: valor,
-    });
-  }
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setValue(name, value);
-  }
 
   useEffect(() => {
     const URL = window.location.hostname.includes('localhost')
@@ -53,7 +43,7 @@ export default function CadastroCategoria() {
                     ...categorias,
                     values,
                   ]);
-                  setValues(valoresIniciais);
+                  clearForm();
                 }
             }
       >
@@ -92,21 +82,23 @@ export default function CadastroCategoria() {
         </Button>
       </form>
 
-      <div>
-        loading...
-      </div>
+      {categorias.length === 0 && (
+        <div>
+          Loading...
+        </div>
+      )}
 
       <ul>
         {
                 categorias.map((categoria) => (
                   <li key={
                         `${
-                          categoria.nome
+                          categoria.titulo
                         }`
                     }
                   >
                     {
-                        categoria.nome
+                        categoria.titulo
                     }
                   </li>
                 ))
